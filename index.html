@@ -2,27 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Just One Question 😌</title>
+  <title>Valentine 💘</title>
+
   <style>
     body {
+      margin: 0;
       height: 100vh;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       font-family: Arial, sans-serif;
-      background: #ffe6f0;
+      background: linear-gradient(135deg, #ffccd5, #ffe6f0);
     }
 
     h1 {
-      margin-bottom: 20px;
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: #ff2f68;
+      text-align: center;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      z-index: 2;
     }
 
     button {
-      padding: 12px 24px;
+      padding: 14px 30px;
       font-size: 20px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -30,7 +42,6 @@
     .yes-button {
       background-color: #ff4d6d;
       color: white;
-      margin-right: 20px;
     }
 
     .no-button {
@@ -38,12 +49,24 @@
       color: white;
     }
 
-    .buttons {
-      display: flex;
-      align-items: center;
+    /* 💖 Falling hearts */
+    .heart {
+      position: absolute;
+      top: -20px;
+      font-size: 24px;
+      animation: fall linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <h1>Will you be my Valentine? 💌🌹</h1>
@@ -52,6 +75,11 @@
     <button class="yes-button" onclick="handleYesClick()">Yes ❤️</button>
     <button class="no-button" onclick="handleNoClick()">No 💔</button>
   </div>
+
+  <!-- 🎵 Sound -->
+  <audio id="yesSound">
+    <source src="https://www.soundjay.com/human/sounds/applause-8.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     let messageIndex = 0;
@@ -79,7 +107,30 @@
     }
 
     function handleYesClick() {
-      window.location.href = "yes_page.html";
+      document.getElementById("yesSound").play();
+      startHearts();
+
+      setTimeout(() => {
+        window.location.href = "yes_page.html";
+      }, 1500);
+    }
+
+    function startHearts() {
+      const heartInterval = setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }, 200);
+
+      setTimeout(() => clearInterval(heartInterval), 2000);
     }
   </script>
 
